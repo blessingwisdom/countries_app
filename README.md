@@ -2,7 +2,6 @@
 
 # HNGi9 Stage 3 task
 
-## Getting Started
 
 ## Description
 
