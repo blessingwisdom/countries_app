@@ -1,5 +1,5 @@
 import 'package:countries_app/app/const/themes.dart';
-import 'package:countries_app/app/services/dark_theme.dart';
+import 'package:countries_app/app/provider/theme_provider.dart';
 import 'package:countries_app/app/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

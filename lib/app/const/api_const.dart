@@ -1,3 +1,1 @@
-class ApiConstant {
-  static const apiBaseUrl = 'https://restcountries.com/v3.1/all';
-}
+const String apiBaseUrl = 'https://restcountries.com/v3.1/all';

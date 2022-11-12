@@ -1,34 +1,106 @@
-// To parse this JSON data, do
-//
-//     final countries = countriesFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
-Countries countriesFromJson(String str) => Countries.fromJson(json.decode(str));
+class CountriesModel {
+  Name name;
+  String capital;
+  String flag;
+  Flags flags;
+  int population;
+  String region;
+  Map<String, dynamic>? languages;
+  Map<String, dynamic>? idd;
+  Map<String, dynamic> car;
+  Map<String, dynamic>? currencies;
+  bool? independent;
+  double area;
+  List<dynamic> timezones;
 
-String countriesToJson(Countries data) => json.encode(data.toJson());
-
-class Countries {
-  Countries({
+  CountriesModel({
+    required this.name,
+    required this.capital,
+    required this.flag,
+    required this.flags,
     required this.population,
-    required this.greeting,
-    required this.instructions,
+    required this.region,
+    required this.independent,
+    required this.area,
+    required this.car,
+    required this.timezones,
+    required this.languages,
+    required this.idd,
   });
 
-  int population;
-  String greeting;
-  List<String> instructions;
+  factory CountriesModel.fromJson(Map<String, dynamic> json) {
+    return CountriesModel(
+      name: Name.fromJson(json["name"]),
+      capital: json["capital"].toString(),
+      flag: json["flag"] ?? "",
+      flags: Flags.fromJson(json["flags"]),
+      population: json["population"] ?? 0,
+      region: json["region"] ?? "",
+      independent: json["independent"],
+      area: json["area"] ?? 0,
+      car: json["car"],
+      languages: json["languages"],
+      timezones: json["timezones"],
+      idd: json["idd"],
+    );
+  }
 
-  factory Countries.fromJson(Map<String, dynamic> json) => Countries(
-        greeting: json["greeting"],
-        instructions: List<String>.from(json["instructions"].map((x) => x)),
-        population: json["population"],
+  static List<CountriesModel> countriesFromSnapshots(List newSnapshot) {
+    return newSnapshot.map((json) {
+      return CountriesModel.fromJson(json);
+    }).toList();
+  }
+
+  static List<CountriesModel> countriesFromSnapshot(String str) =>
+      List<CountriesModel>.from(
+          json.decode(str).map((x) => CountriesModel.fromJson(x)));
+}
+
+class Name {
+  String common;
+  String official;
+
+  Name({required this.common, required this.official});
+
+  factory Name.fromJson(Map<String, dynamic> json) {
+    return Name(
+      common: json['common'] ?? "",
+      official: json['official'] ?? "",
+    );
+  }
+}
+
+class Flags {
+  Flags({
+    required this.png,
+    required this.svg,
+  });
+
+  String png;
+  String svg;
+
+  factory Flags.fromJson(Map<String, dynamic> json) => Flags(
+        png: json["png"],
+        svg: json["svg"],
       );
+}
 
-  Map<String, dynamic> toJson() => {
-        "greeting": greeting,
-        "instructions": List<dynamic>.from(instructions.map((x) => x)),
-        "population": population,
-      };
+class Languages {
+  Languages({
+    required this.eng,
+    //required this.hin,
+    //required this.tam,
+  });
+
+  String eng;
+  //String hin;
+  //String tam;
+
+  factory Languages.fromJson(Map<String, dynamic> json) => Languages(
+        eng: json["eng"],
+        //  hin: json["hin"],
+        //tam: json["tam"],
+      );
 }
