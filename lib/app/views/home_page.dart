@@ -30,7 +30,7 @@ class _CountryScreenState extends State<CountryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DarkThemeProvider>(context, listen: false);
+    final provider = context.watch<DarkThemeProvider>();
     final countriesProvider = context.watch<CountriesProvider>();
     return SafeArea(
         child: Scaffold(
