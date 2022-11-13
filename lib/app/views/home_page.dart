@@ -5,6 +5,7 @@ import 'package:countries_app/app/widget/search_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:countries_app/app/widget/filter_icon.dart';
 import 'package:countries_app/app/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class CountryScreen extends StatefulWidget {
   const CountryScreen({Key? key}) : super(key: key);
@@ -27,8 +28,18 @@ class _CountryScreenState extends State<CountryScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('ex_logo-removebg-preview.png'),
-                const Icon(Icons.wb_sunny_outlined),
+                Text(
+                  "Explore",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Consumer<DarkThemeProvider>(builder: (context, theme, child) {
+                  return InkWell(
+                    child: const Icon(Icons.wb_sunny_outlined),
+                  );
+                }),
               ],
             ),
             SizedBox(height: 24.h),
