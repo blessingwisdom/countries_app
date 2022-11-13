@@ -18,9 +18,8 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
-    final _Countiesrover =
-        Provider.of<CountriesProvider>(context, listen: false);
-    _Countiesrover.getAllCountryByName(widget.name);
+    final countiesrover = context.watch();
+    countiesrover.getAllCountryByName(widget.name);
     super.initState();
   }
 
