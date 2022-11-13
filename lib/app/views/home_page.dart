@@ -3,15 +3,13 @@ import 'package:countries_app/app/views/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:countries_app/app/widget/search_field.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:countries_app/app/widget/filter_icon.dart';
 import 'package:countries_app/app/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:countries_app/app/provider/country_provider.dart';
-import '../services/countries_api.dart';
-import '../widget/country_widget.dart';
 
+import '../widget/country_widget.dart';
 import '../models/countries.dart';
 
 class CountryScreen extends StatefulWidget {
@@ -23,27 +21,17 @@ class CountryScreen extends StatefulWidget {
 
 class _CountryScreenState extends State<CountryScreen> {
   late List<CountriesModel>? datar = [];
-  CountriesApi countriesApiService = CountriesApi();
 
   @override
   void initState() {
-    // TODO: implement initState
     context.read<CountriesProvider>().getAllCountriesData();
     super.initState();
   }
 
-  // @override
-  //  {
-  //   final countyProvider = Provider.of<CountriesProvider>(context);
-  //   countyProvider.getAllCountriesData();
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final _provider = Provider.of<DarkThemeProvider>(context, listen: false);
-    final _CountriesProvider =
-        Provider.of<CountriesProvider>(context, listen: false);
+    final provider = Provider.of<DarkThemeProvider>(context, listen: false);
+    final countriesProvider = context.watch<CountriesProvider>();
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -68,7 +56,7 @@ class _CountryScreenState extends State<CountryScreen> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          _provider.setDarkTheme = !_provider.isDark;
+                          provider.setDarkTheme = !provider.isDark;
                         },
                         child:
                             Icon(data.isDark ? Icons.dark_mode : Icons.sunny)),
@@ -103,7 +91,7 @@ class _CountryScreenState extends State<CountryScreen> {
                 SizedBox(
                   height: 16.h,
                 ),
-                _CountriesProvider.isLoading
+                countriesProvider.isLoading
                     ? Container(
                         height: 639.h,
                         width: double.maxFinite,
