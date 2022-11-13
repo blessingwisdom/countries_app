@@ -16,6 +16,7 @@ class CountriesApi {
         for (var element in jsonList) {
           result.add(CountriesModel.fromJson(element));
         }
+
         return result;
       }
     } catch (error) {

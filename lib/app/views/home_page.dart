@@ -26,6 +26,20 @@ class _CountryScreenState extends State<CountryScreen> {
   CountriesApi countriesApiService = CountriesApi();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    context.read<CountriesProvider>().getAllCountriesData();
+    super.initState();
+  }
+
+  // @override
+  //  {
+  //   final countyProvider = Provider.of<CountriesProvider>(context);
+  //   countyProvider.getAllCountriesData();
+  //   super.didChangeDependencies();
+  // }
+
+  @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<DarkThemeProvider>(context, listen: false);
     final _CountriesProvider =
