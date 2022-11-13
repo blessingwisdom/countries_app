@@ -17,8 +17,8 @@ class AppColor {
 
 class Themes {
   static final dark = ThemeData(
-      scaffoldBackgroundColor: Color(0xFF000F24),
-      primaryColor: Color(0xFF000F24),
+      scaffoldBackgroundColor: const Color(0xFF000F24),
+      primaryColor: const Color(0xFF000F24),
       brightness: Brightness.dark,
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -32,20 +32,20 @@ class Themes {
             brightness: Brightness.dark,
           ),
       textTheme: TextTheme(
-        button: TextStyle(color: Colors.grey),
+        button: const TextStyle(color: Colors.grey),
         bodyText1: GoogleFonts.poppins(
             fontSize: 14.sp,
             fontWeight: FontWeight.w400,
-            color: Color(0xFFF2F4F7)),
+            color: const Color(0xFFF2F4F7)),
         bodyText2: GoogleFonts.firaSans(
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          color: Color(0xFF98A2B3),
+          color: const Color(0xFF98A2B3),
         ),
       ));
 
   static final light = ThemeData(
-      scaffoldBackgroundColor: Color(0xffFFFFFF),
+      scaffoldBackgroundColor: const Color(0xffFFFFFF),
       primaryColor: Colors.white,
       brightness: Brightness.light,
       colorScheme: ThemeData().colorScheme.copyWith(
@@ -64,12 +64,12 @@ class Themes {
         bodyText1: GoogleFonts.poppins(
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          color: Color(0xFF1C1917),
+          color: const Color(0xFF1C1917),
         ),
         bodyText2: GoogleFonts.firaSans(
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          color: Color(0xFF667085),
+          color: const Color(0xFF667085),
         ),
       ));
 }

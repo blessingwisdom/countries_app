@@ -17,57 +17,69 @@ class CountryScreen extends StatefulWidget {
 class _CountryScreenState extends State<CountryScreen> {
   @override
   Widget build(BuildContext context) {
+    final _provider = Provider.of<DarkThemeProvider>(context, listen: false);
     return SafeArea(
         child: Scaffold(
       body: Padding(
         padding: EdgeInsets.only(left: 24.w, right: 24.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Consumer<DarkThemeProvider>(
+          builder: (BuildContext context, data, child) => SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Explore",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(fontSize: 22, fontWeight: FontWeight.bold),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 28.h,
+                      width: 120.w,
+                      child: data.isDark
+                          ? Image.asset("assets/images/logo.png",
+                              fit: BoxFit.cover)
+                          : Image.asset("assets/images/ex_logo.png",
+                              fit: BoxFit.cover),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          _provider.setDarkTheme = !_provider.isDark;
+                        },
+                        child:
+                            Icon(data.isDark ? Icons.dark_mode : Icons.sunny)),
+                  ],
                 ),
-                Consumer<DarkThemeProvider>(builder: (context, theme, child) {
-                  return InkWell(
-                    child: const Icon(Icons.wb_sunny_outlined),
-                  );
-                }),
+                SizedBox(height: 24.h),
+                SearchField(),
+                SizedBox(height: 16.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FilterWidget(
+                      containerWidth: 73.w,
+                      color: data.isDark
+                          ? const Color(0xFF000F24)
+                          : const Color(0xFFFCFCFD),
+                      icon: Icons.language,
+                      onTap: () {},
+                      text: 'EN',
+                    ),
+                    FilterWidget(
+                      containerWidth: 86.w,
+                      color: data.isDark
+                          ? const Color(0xFF000F24)
+                          : const Color(0xFFFCFCFD),
+                      icon: Icons.filter_alt_outlined,
+                      onTap: () {},
+                      text: 'Filter',
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
               ],
             ),
-            SizedBox(height: 24.h),
-            SearchField(),
-            SizedBox(height: 16.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FilterWidget(
-                  containerWidth: 73.w,
-                  color: AppColor.whiteColor,
-                  icon: Icons.language,
-                  onTap: () {},
-                  text: 'EN',
-                ),
-                FilterWidget(
-                  containerWidth: 86.w,
-                  color: AppColor.containerBgColor,
-                  icon: Icons.filter_alt_outlined,
-                  onTap: () {},
-                  text: 'Filter',
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-          ],
+          ),
         ),
       ),
     ));

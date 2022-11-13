@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:countries_app/app/provider/country_provider.dart';
+import 'package:countries_app/app/provider/theme_provider.dart';
 
 class SearchField extends StatefulWidget {
   SearchField({Key? key}) : super(key: key);
@@ -13,16 +14,28 @@ class SearchField extends StatefulWidget {
 }
 
 class _SearchFieldState extends State<SearchField> {
-  final TextEditingController searchController = TextEditingController();
+  DarkThemeProvider themeProvider = DarkThemeProvider();
+  final TextEditingController _searchController = TextEditingController();
+  late FocusNode focusNode;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final countryProvider = Provider.of<CountriesProvider>(context);
+    final _countryProvider =
+        Provider.of<CountriesProvider>(context, listen: false);
     return SizedBox(
-      height: 60.h,
+      height: 48.h,
+      width: 380.w,
       child: TextFormField(
-        controller: searchController,
-        onChanged: ((value) => countryProvider.searchResult),
+        controller: _searchController,
+        onChanged: _countryProvider.searchResult,
+        keyboardType: TextInputType.text,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
             prefixIcon: const Icon(
@@ -30,15 +43,19 @@ class _SearchFieldState extends State<SearchField> {
               color: AppColor.searchIconColorDark,
             ),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.secondary,
+            fillColor: themeProvider.isDark
+                ? const Color.fromRGBO(152, 162, 179, 0.2)
+                : const Color(0xFFF2F4F7),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.r),
+              borderRadius: BorderRadius.circular(4.r),
             ),
-            hintText: 'Search Country',
+            hintText: "Search Country",
             hintStyle: GoogleFonts.firaSans(
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
-              color: Color(0xFF1C1917),
+              color: themeProvider.isDark
+                  ? const Color(0xFFEAECF0)
+                  : const Color(0xff000000),
             )),
       ),
     );

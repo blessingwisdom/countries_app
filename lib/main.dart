@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+
   void getCurrentAppTheme() async {
     themeChangeProvider.setDarkTheme =
         await themeChangeProvider.darkThemePreference.getTheme();

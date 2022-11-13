@@ -9,7 +9,7 @@ class Themes {
             secondary: const Color(0xffFFFFFF),
             brightness: Brightness.light,
           ),
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Colors.blue,
       ));
 
@@ -21,7 +21,7 @@ class Themes {
             secondary: const Color(0xff000F24),
             brightness: Brightness.dark,
           ),
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Color(0xFFEAECF0),
       ));
 }
