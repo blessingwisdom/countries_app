@@ -90,17 +90,11 @@ class Flags {
 class Languages {
   Languages({
     required this.eng,
-    //required this.hin,
-    //required this.tam,
   });
 
   String eng;
-  //String hin;
-  //String tam;
 
   factory Languages.fromJson(Map<String, dynamic> json) => Languages(
         eng: json["eng"],
-        //  hin: json["hin"],
-        //tam: json["tam"],
       );
 }
