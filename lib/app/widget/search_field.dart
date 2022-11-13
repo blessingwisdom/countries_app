@@ -22,7 +22,7 @@ class _SearchFieldState extends State<SearchField> {
       height: 60.h,
       child: TextFormField(
         controller: searchController,
-        onChanged: ((value) => countryProvider.searchResult(value)),
+        onChanged: ((value) => countryProvider.searchResult),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
             prefixIcon: const Icon(
@@ -30,7 +30,7 @@ class _SearchFieldState extends State<SearchField> {
               color: AppColor.searchIconColorDark,
             ),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.primary,
+            fillColor: Theme.of(context).colorScheme.secondary,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.r),
             ),
