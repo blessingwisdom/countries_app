@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppColor {
   static const Color countryNameLight = Color(0xff1C1917);
   static const Color countryCapitalLight = Color(0xff667085);
+  static const Color countryNameDark = Color(0xffF2F4F7);
+  static const Color countryCapitalDark = Color(0xff98A2B3);
   static const Color containerBorderColor = Color(0xFFA9B8D4);
   static const Color textFormFieldBgColor = Color(0xFFF2F4F7);
   static const Color searchIconColor = Color(0xff667086);

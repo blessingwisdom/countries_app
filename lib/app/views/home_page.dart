@@ -1,4 +1,5 @@
 import 'package:countries_app/app/const/app_colors.dart';
+import 'package:countries_app/app/views/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:countries_app/app/widget/search_field.dart';
@@ -6,6 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:countries_app/app/widget/filter_icon.dart';
 import 'package:countries_app/app/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:countries_app/app/provider/country_provider.dart';
+import '../services/countries_api.dart';
+import '../widget/country_widget.dart';
+
+import '../models/countries.dart';
 
 class CountryScreen extends StatefulWidget {
   const CountryScreen({Key? key}) : super(key: key);
@@ -15,9 +22,14 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
+  late List<CountriesModel>? datar = [];
+  CountriesApi countriesApiService = CountriesApi();
+
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<DarkThemeProvider>(context, listen: false);
+    final _CountriesProvider =
+        Provider.of<CountriesProvider>(context, listen: false);
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -77,6 +89,68 @@ class _CountryScreenState extends State<CountryScreen> {
                 SizedBox(
                   height: 16.h,
                 ),
+                _CountriesProvider.isLoading
+                    ? Container(
+                        height: 639.h,
+                        width: double.maxFinite,
+                        color: data.isDark
+                            ? const Color(0xFF000F24)
+                            : Colors.white,
+                        child: SpinKitThreeBounce(
+                            duration: const Duration(seconds: 1),
+                            itemBuilder: (BuildContext context, index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: index.isEven
+                                        ? Colors.red
+                                        : Colors.green),
+                              );
+                            }),
+                      )
+                    : Container(
+                        height: 639.h,
+                        width: double.maxFinite,
+                        child: Consumer<CountriesProvider>(builder:
+                            (BuildContext context, countriesData, child) {
+                          return ListView.builder(
+                              itemCount: countriesData.countryData.length,
+                              itemBuilder: (BuildContext context, index) {
+                                print(datar!.length);
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailsScreen(
+                                                name: countriesData
+                                                    .countryData![index]
+                                                    .name
+                                                    .common
+                                                    .toString())));
+                                  },
+                                  child: CountryWidget(
+                                    image: countriesData
+                                        .countryData[index].flags.png
+                                        .toString(),
+                                    countryName: countriesData
+                                        .countryData[index].name.common
+                                        .toString(),
+                                    nameColor: data.isDark
+                                        ? AppColor.countryNameDark
+                                        : AppColor.countryCapitalLight,
+                                    capital: countriesData
+                                        .countryData[index].capital
+                                        .toString()
+                                        .replaceAll("[", "")
+                                        .replaceAll("]", ""),
+                                    capitalColor: data.isDark
+                                        ? AppColor.countryNameDark
+                                        : AppColor.countryCapitalDark,
+                                  ),
+                                );
+                              });
+                        })),
               ],
             ),
           ),
