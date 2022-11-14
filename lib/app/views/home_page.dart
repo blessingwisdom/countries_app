@@ -5,12 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:countries_app/app/widget/search_field.dart';
 import 'package:countries_app/app/widget/filter_icon.dart';
 import 'package:countries_app/app/provider/theme_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:countries_app/app/provider/country_provider.dart';
 
 import '../widget/country_widget.dart';
 import '../models/countries.dart';
+import '../widget/language_tile.dart';
+import '../widget/filter_tile.dart';
 
 class CountryScreen extends StatefulWidget {
   const CountryScreen({Key? key}) : super(key: key);
@@ -75,7 +78,17 @@ class _CountryScreenState extends State<CountryScreen> {
                           ? const Color(0xFF000F24)
                           : const Color(0xFFFCFCFD),
                       icon: Icons.language,
-                      onTap: () {},
+                      onTap: () {
+                        showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(30),
+                          )),
+                          context: context,
+                          builder: (context) => LanguageTile(),
+                        );
+                      },
                       text: 'EN',
                     ),
                     FilterWidget(
@@ -84,7 +97,17 @@ class _CountryScreenState extends State<CountryScreen> {
                           ? const Color(0xFF000F24)
                           : const Color(0xFFFCFCFD),
                       icon: Icons.filter_alt_outlined,
-                      onTap: () {},
+                      onTap: () {
+                        showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(30),
+                          )),
+                          context: context,
+                          builder: (context) => FilterTile(),
+                        );
+                      },
                       text: 'Filter',
                     ),
                   ],
@@ -112,58 +135,70 @@ class _CountryScreenState extends State<CountryScreen> {
                             }),
                       )
                     : SizedBox(
-                      height: 600,
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                        for (var entry in countryGroups.entries)
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        height: 600.h,
+                        child: ListView(
+                          shrinkWrap: true,
                           children: [
-                            Text(entry.key, style: const TextStyle(fontWeight: FontWeight.w800),),
-                           const SizedBox(height: 10,),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: entry.value.length,
-                                    itemBuilder: (BuildContext context, index) {
-                                      final countryData = entry.value[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => DetailsScreen(
-                                                      name: 
-                                                          countryData
-                                                          .name
-                                                          ?.common
-                                                          ?.toString() ?? '')));
-                                        },
-                                        child: CountryWidget(
-                                          image:countryData.flags?.png
-                                              .toString() ?? '',
-                                          countryName: countryData.name?.common
-                                              .toString() ?? '',
-                                          nameColor: data.isDark
-                                              ? AppColor.countryNameDark
-                                              : AppColor.countryCapitalLight,
-                                          capital: countryData.capital
-                                              ?.toString()
-                                              .replaceAll("[", "")
-                                              .replaceAll("]", "") ?? '',
-                                          capitalColor: data.isDark
-                                              ? AppColor.countryNameDark
-                                              : AppColor.countryCapitalDark,
-                                        ),
-                                      );
-                                    }),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                            for (var entry in countryGroups.entries)
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(entry.key,
+                                      style: GoogleFonts.firaSans(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14.sp)),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: entry.value.length,
+                                      itemBuilder:
+                                          (BuildContext context, index) {
+                                        final countryData = entry.value[index];
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailsScreen(
+                                                            name: countryData
+                                                                    .name
+                                                                    ?.common
+                                                                    ?.toString() ??
+                                                                '')));
+                                          },
+                                          child: CountryWidget(
+                                            image: countryData.flags?.png
+                                                    .toString() ??
+                                                '',
+                                            countryName: countryData
+                                                    .name?.common
+                                                    .toString() ??
+                                                '',
+                                            nameColor: data.isDark
+                                                ? AppColor.countryNameDark
+                                                : AppColor.countryCapitalLight,
+                                            capital: countryData.capital
+                                                    ?.toString()
+                                                    .replaceAll("[", "")
+                                                    .replaceAll("]", "") ??
+                                                '',
+                                            capitalColor: data.isDark
+                                                ? AppColor.countryNameDark
+                                                : AppColor.countryCapitalDark,
+                                          ),
+                                        );
+                                      }),
+                                ],
+                              ),
+                          ],
+                        ),
+                      )
               ],
             ),
           ),
