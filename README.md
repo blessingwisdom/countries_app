@@ -29,4 +29,4 @@ This app is country app that displays a list of countries using Rest API. When a
 
 
 ## Appetize.io link
-https://appetize.io/app/zo35dazy7lidnusy2lf2v3se6q
+[https://appetize.io/app/zo35dazy7lidnusy2lf2v3se6q](https://appetize.io/app/zo35dazy7lidnusy2lf2v3se6q?device=pixel4&osVersion=12.0&scale=75)
