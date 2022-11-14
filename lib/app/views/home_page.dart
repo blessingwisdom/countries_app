@@ -32,6 +32,7 @@ class _CountryScreenState extends State<CountryScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<DarkThemeProvider>();
     final countriesProvider = context.watch<CountriesProvider>();
+    final countryGroups = countriesProvider.countryGroupList;
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -110,49 +111,59 @@ class _CountryScreenState extends State<CountryScreen> {
                               );
                             }),
                       )
-                    : Container(
-                        height: 639.h,
-                        width: double.maxFinite,
-                        child: Consumer<CountriesProvider>(builder:
-                            (BuildContext context, countriesData, child) {
-                          return ListView.builder(
-                              itemCount: countriesData.countryData.length,
-                              itemBuilder: (BuildContext context, index) {
-                                print(datar!.length);
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => DetailsScreen(
-                                                name: countriesData
-                                                    .countryData![index]
-                                                    .name
-                                                    .common
-                                                    .toString())));
-                                  },
-                                  child: CountryWidget(
-                                    image: countriesData
-                                        .countryData[index].flags.png
-                                        .toString(),
-                                    countryName: countriesData
-                                        .countryData[index].name.common
-                                        .toString(),
-                                    nameColor: data.isDark
-                                        ? AppColor.countryNameDark
-                                        : AppColor.countryCapitalLight,
-                                    capital: countriesData
-                                        .countryData[index].capital
-                                        .toString()
-                                        .replaceAll("[", "")
-                                        .replaceAll("]", ""),
-                                    capitalColor: data.isDark
-                                        ? AppColor.countryNameDark
-                                        : AppColor.countryCapitalDark,
-                                  ),
-                                );
-                              });
-                        })),
+                    : SizedBox(
+                      height: 600,
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                        for (var entry in countryGroups.entries)
+                          Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(entry.key, style: const TextStyle(fontWeight: FontWeight.w800),),
+                           const SizedBox(height: 10,),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: entry.value.length,
+                                    itemBuilder: (BuildContext context, index) {
+                                      final countryData = entry.value[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => DetailsScreen(
+                                                      name: 
+                                                          countryData
+                                                          .name
+                                                          ?.common
+                                                          ?.toString() ?? '')));
+                                        },
+                                        child: CountryWidget(
+                                          image:countryData.flags?.png
+                                              .toString() ?? '',
+                                          countryName: countryData.name?.common
+                                              .toString() ?? '',
+                                          nameColor: data.isDark
+                                              ? AppColor.countryNameDark
+                                              : AppColor.countryCapitalLight,
+                                          capital: countryData.capital
+                                              ?.toString()
+                                              .replaceAll("[", "")
+                                              .replaceAll("]", "") ?? '',
+                                          capitalColor: data.isDark
+                                              ? AppColor.countryNameDark
+                                              : AppColor.countryCapitalDark,
+                                        ),
+                                      );
+                                    }),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
               ],
             ),
           ),

@@ -18,7 +18,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
-    final countiesrover = context.watch();
+    final countiesrover = context.read<CountriesProvider>();
     countiesrover.getAllCountryByName(widget.name);
     super.initState();
   }
@@ -32,6 +32,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
             builder: (BuildContext context, data, child) {
           return Consumer<CountriesProvider>(
               builder: (BuildContext context, countriesDataByName, child) {
+             final country =  (countriesDataByName.countryByNameList?.length ?? 0) > 0 
+                            ? countriesDataByName
+                                .countryByNameList![0] :  null;
+
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +53,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(Icons.arrow_back),
+                        child: const Icon(Icons.arrow_back),
                       ),
                       Text(
-                        countriesDataByName.countryByNameList.length > 0
+                        (countriesDataByName.countryByNameList?.length ?? 0) > 0 
                             ? countriesDataByName
-                                .countryByNameList[0].name.common
-                                .toString()
+                                .countryByNameList![0].name?.common
+                                .toString() ?? ''
                             : "no data",
                         style: GoogleFonts.firaSans(fontSize: 18.sp),
                       ),
@@ -73,11 +77,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
                                 image: NetworkImage(
-                                  countriesDataByName.countryByNameList.length >
+                                  (countriesDataByName.countryByNameList?.length ?? 0 ) >
                                           0
                                       ? countriesDataByName
-                                          .countryByNameList[0].flags.png
-                                          .toString()
+                                          .countryByNameList![0].flags?.png
+                                          .toString() ?? ''
                                       : "no data",
                                 ),
                                 fit: BoxFit.cover)),
@@ -104,64 +108,45 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   height: 18.h,
                 ),
                 DetailWidget(
-                  population: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].population
+                  population: country?.population
+                          .toString() ??
+                      'no data',
+                  region: country?.region
                           .toString()
-                      : 'no data',
-                  region: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].region
-                          .toString()
-                      : 'no data',
-                  capital: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].capital
+                      ?? 'no data',
+                  capital: country?.capital
                           .toString()
                           .replaceAll("[", "")
                           .replaceAll("]", "")
-                      : "no data",
+                      ?? "no data",
                   motto: "motto",
-                  officialLang: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName
-                          .countryByNameList[0].languages.values.first
-                          .toString()
-                      : "no data",
+                  officialLang: country?.languages?.ara
+                      ?? "no data",
                   ethnicGroup: "ethnicGroup",
                   religion: "religion",
                   govt: "govt",
-                  independence: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].independent
+                  independence: country?.independent
                           .toString()
-                      : "no data",
-                  area: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].area
-                              .toString() +
-                          "km2"
-                      : "no data",
-                  currency: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName
-                          .countryByNameList[0].currencies.values.first["name"]
-                          .toString()
-                      : 'no data',
+                      ?? "no data",
+                  area: "${country?.area}km2"
+                     ,
+                  currency: country?.currencies?.mRU?.name
+                      ?? 'no data',
                   gdp: 'gdp',
-                  timeZone: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].timezones[0]
+                  timeZone: country?.timezones?[0]
                           .toString()
-                      : "no data",
+                      ?? "no data",
                   dateFormat: 'dateFormat',
-                  dialingCode: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].idd['root']
+                  dialingCode: country?.idd?.root
                               .toString()
                               .replaceAll("[", "")
-                              .replaceAll("]", "") +
-                          countriesDataByName
-                              .countryByNameList[0].idd['suffixes']
+                              .replaceAll("]", "") ?? '${country?.idd?.suffixes?[0]
                               .toString()
                               .replaceAll("[", "")
-                              .replaceAll("]", "")
-                      : "no data",
-                  drivingSide: countriesDataByName.countryByNameList.length > 0
-                      ? countriesDataByName.countryByNameList[0].car['side']
+                              .replaceAll("]", "")}' ,
+                  drivingSide: country?.car?.side
                           .toString()
-                      : 'no data',
+                      ?? 'no data',
                 )
               ],
             );

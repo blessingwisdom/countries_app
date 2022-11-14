@@ -27,7 +27,7 @@ class CountriesApi {
   }
 
   Future<List<CountriesModel>?> getCountryBName(String countryName) async {
-    List<CountriesModel> result1 = [];
+    List<CountriesModel> result = [];
     try {
       final response = await http.get(
         Uri.parse(
@@ -36,11 +36,11 @@ class CountriesApi {
       if (response.statusCode == 200) {
         final jsonList = jsonDecode(response.body);
         for (var element in jsonList) {
-          result1.add(
+          result.add(
             CountriesModel.fromJson(element),
           );
         }
-        return result1;
+        return result;
       }
     } catch (error) {
       print('error: $error');
