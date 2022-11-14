@@ -23,8 +23,10 @@ This app is country app that displays a list of countries using Rest API. When a
 
 
 ## Challenges
-When consuming the api, it wasn't easy.
+* When consuming the api, it wasn't easy.
+* Appetize showed me shege.
 
 
 
 ## Appetize.io link
+https://appetize.io/app/zo35dazy7lidnusy2lf2v3se6q
